@@ -22,7 +22,7 @@ export default function ContactPanel() {
               rel="noopener noreferrer"
               className="text-white hover:text-gray-300"
             >
-              Pide una cita:
+              Pide una cita
             </a>
           </div>
         </div>
