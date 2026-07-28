@@ -3,22 +3,28 @@ import { ArrowRight, Check } from 'lucide-react';
 import Reveal from './Reveal';
 import { solutions } from '../data/solutions';
 
-export default function SolutionsOverview() {
+interface SolutionsOverviewProps {
+  showHeading?: boolean;
+}
+
+export default function SolutionsOverview({ showHeading = true }: SolutionsOverviewProps) {
   return (
     <section id="soluciones" className="bg-black text-white px-6 py-24 md:px-12 lg:px-16">
       <div className="mx-auto max-w-6xl">
-        <Reveal duration={800}>
-          <span className="text-sm uppercase tracking-widest text-gray-400">Soluciones</span>
-          <h2
-            className="mt-3 text-3xl md:text-4xl lg:text-5xl font-normal mb-4 max-w-2xl"
-            style={{ letterSpacing: '-0.03em' }}
-          >
-            Capacidad de manufactura para cada etapa de tu proceso.
-          </h2>
-          <p className="text-base md:text-lg text-gray-300 max-w-xl mb-16">
-            Cuatro líneas de negocio integradas, para que no tengas que coordinar múltiples proveedores.
-          </p>
-        </Reveal>
+        {showHeading && (
+          <Reveal duration={800}>
+            <span className="text-sm uppercase tracking-widest text-gray-400">Soluciones</span>
+            <h2
+              className="mt-3 text-3xl md:text-4xl lg:text-5xl font-normal mb-4 max-w-2xl"
+              style={{ letterSpacing: '-0.03em' }}
+            >
+              Capacidad de manufactura para cada etapa de tu proceso.
+            </h2>
+            <p className="text-base md:text-lg text-gray-300 max-w-xl mb-16">
+              Cuatro líneas de negocio integradas, para que no tengas que coordinar múltiples proveedores.
+            </p>
+          </Reveal>
+        )}
 
         <div className="grid gap-8 md:grid-cols-2">
           {solutions.map((solution, index) => (

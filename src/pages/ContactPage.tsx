@@ -1,11 +1,12 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Mail, Phone, MapPin, CheckCircle2, ExternalLink } from 'lucide-react';
+import { CheckCircle2 } from 'lucide-react';
 import PageHeader from '../components/PageHeader';
 import Reveal from '../components/Reveal';
 import WhatsAppIcon from '../components/WhatsAppIcon';
-import { services, getServiceBySlug } from '../data/services';
-import { siteConfig, buildWhatsAppLink } from '../config/site';
+import ContactPanel from '../components/ContactPanel';
+import { solutions, getSolutionBySlug } from '../data/solutions';
+import { buildWhatsAppLink } from '../config/site';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 interface FormState {
@@ -13,7 +14,7 @@ interface FormState {
   company: string;
   email: string;
   phone: string;
-  service: string;
+  solution: string;
   message: string;
 }
 
@@ -22,7 +23,7 @@ const initialForm: FormState = {
   company: '',
   email: '',
   phone: '',
-  service: '',
+  solution: '',
   message: '',
 };
 
@@ -30,22 +31,22 @@ export default function ContactPage() {
   useDocumentMeta({
     title: 'Contacto y Cotizaciones',
     description:
-      'Solicita tu cotización para Arquitectura B2B Premium o Arquitectura Comercial. Formulario, WhatsApp y ubicación en Ciudad de México.',
+      'Solicita tu cotización con NEXOR Industrial. Formulario, WhatsApp y ubicación en Tejupilco, Estado de México.',
     path: '/contacto',
   });
 
   const [searchParams] = useSearchParams();
-  const presetServiceSlug = searchParams.get('servicio') ?? undefined;
-  const presetService = getServiceBySlug(presetServiceSlug);
+  const presetSolutionSlug = searchParams.get('solucion') ?? undefined;
+  const presetSolution = getSolutionBySlug(presetSolutionSlug);
 
   const [form, setForm] = useState<FormState>(initialForm);
   const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    if (presetService) {
-      setForm((prev) => ({ ...prev, service: presetService.id }));
+    if (presetSolution) {
+      setForm((prev) => ({ ...prev, solution: presetSolution.id }));
     }
-  }, [presetService]);
+  }, [presetSolution]);
 
   const handleChange = (field: keyof FormState) => (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -59,12 +60,13 @@ export default function ContactPage() {
   };
 
   const buildWhatsAppMessage = () => {
-    const serviceLabel = services.find((s) => s.id === form.service)?.title ?? 'un servicio de VEX';
+    const solutionLabel = solutions.find((s) => s.id === form.solution)?.title ?? 'una solución industrial';
     const lines = [
       `Hola, soy ${form.name || '—'}.`,
-      `Quiero cotizar: ${serviceLabel}.`,
       form.company ? `Empresa: ${form.company}.` : null,
+      `Quiero cotizar: ${solutionLabel}.`,
       form.email ? `Correo: ${form.email}.` : null,
+      form.phone ? `Teléfono: ${form.phone}.` : null,
       form.message ? `Mensaje: ${form.message}` : null,
     ].filter(Boolean);
     return lines.join(' ');
@@ -85,7 +87,8 @@ export default function ContactPage() {
               Solicita tu cotización.
             </h1>
             <p className="text-base md:text-lg text-gray-300 max-w-xl mb-16">
-              Cuéntanos sobre tu proyecto y te responderemos con una propuesta a la medida — por correo o WhatsApp.
+              Cuéntanos sobre tu proyecto y un ingeniero de ventas te responderá con una propuesta técnica —
+              por correo o WhatsApp.
             </p>
           </Reveal>
 
@@ -96,7 +99,8 @@ export default function ContactPage() {
                   <CheckCircle2 className="h-12 w-12 mb-4 text-white" />
                   <h3 className="text-xl font-medium mb-2">¡Gracias por tu solicitud!</h3>
                   <p className="text-gray-300 max-w-sm">
-                    Hemos recibido tu información. Nuestro equipo se pondrá en contacto contigo a la brevedad.
+                    Hemos recibido tu información. Nuestro equipo técnico se pondrá en contacto contigo a la
+                    brevedad.
                   </p>
                   <button
                     type="button"
@@ -127,10 +131,11 @@ export default function ContactPage() {
 
                   <div className="sm:col-span-1">
                     <label htmlFor="company" className="block text-sm text-gray-300 mb-2">
-                      Empresa
+                      Empresa *
                     </label>
                     <input
                       id="company"
+                      required
                       value={form.company}
                       onChange={handleChange('company')}
                       className="w-full rounded-lg bg-white/5 border border-white/15 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40"
@@ -149,7 +154,7 @@ export default function ContactPage() {
                       value={form.email}
                       onChange={handleChange('email')}
                       className="w-full rounded-lg bg-white/5 border border-white/15 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40"
-                      placeholder="tu@correo.com"
+                      placeholder="tu@empresa.com"
                     />
                   </div>
 
@@ -163,27 +168,27 @@ export default function ContactPage() {
                       value={form.phone}
                       onChange={handleChange('phone')}
                       className="w-full rounded-lg bg-white/5 border border-white/15 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40"
-                      placeholder="+52 55 0000 0000"
+                      placeholder="Tu número de contacto"
                     />
                   </div>
 
                   <div className="sm:col-span-2">
-                    <label htmlFor="service" className="block text-sm text-gray-300 mb-2">
-                      Servicio de interés *
+                    <label htmlFor="solution" className="block text-sm text-gray-300 mb-2">
+                      Solución de interés *
                     </label>
                     <select
-                      id="service"
+                      id="solution"
                       required
-                      value={form.service}
-                      onChange={handleChange('service')}
+                      value={form.solution}
+                      onChange={handleChange('solution')}
                       className="w-full rounded-lg bg-white/5 border border-white/15 px-4 py-3 text-sm text-white focus:outline-none focus:border-white/40"
                     >
                       <option value="" disabled className="bg-black">
-                        Selecciona un servicio
+                        Selecciona una solución
                       </option>
-                      {services.map((service) => (
-                        <option key={service.id} value={service.id} className="bg-black">
-                          {service.title}
+                      {solutions.map((solution) => (
+                        <option key={solution.id} value={solution.id} className="bg-black">
+                          {solution.title}
                         </option>
                       ))}
                       <option value="otro" className="bg-black">
@@ -202,7 +207,7 @@ export default function ContactPage() {
                       value={form.message}
                       onChange={handleChange('message')}
                       className="w-full rounded-lg bg-white/5 border border-white/15 px-4 py-3 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:border-white/40 resize-none"
-                      placeholder="Cuéntanos brevemente sobre tu proyecto"
+                      placeholder="Cuéntanos brevemente sobre tu proyecto: volumen, material, tiempos"
                     />
                   </div>
 
@@ -227,67 +232,8 @@ export default function ContactPage() {
               )}
             </Reveal>
 
-            <Reveal delay={200} className="lg:col-span-2 flex flex-col gap-6">
-              <div className="liquid-glass border border-white/10 rounded-2xl p-8 space-y-5">
-                <div className="flex items-start gap-4">
-                  <Mail className="h-5 w-5 mt-0.5 shrink-0 text-white" />
-                  <div>
-                    <p className="text-sm text-gray-400">Correo</p>
-                    <a href={`mailto:${siteConfig.email}`} className="text-white hover:text-gray-300">
-                      {siteConfig.email}
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <Phone className="h-5 w-5 mt-0.5 shrink-0 text-white" />
-                  <div>
-                    <p className="text-sm text-gray-400">Teléfono</p>
-                    <a href={`tel:${siteConfig.phoneTel}`} className="text-white hover:text-gray-300">
-                      {siteConfig.phoneDisplay}
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <WhatsAppIcon className="h-5 w-5 mt-0.5 shrink-0 text-white" />
-                  <div>
-                    <p className="text-sm text-gray-400">WhatsApp</p>
-                    <a
-                      href={buildWhatsAppLink('Hola, quiero cotizar un sitio web con VEX.')}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-white hover:text-gray-300"
-                    >
-                      {siteConfig.phoneDisplay}
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-4">
-                  <MapPin className="h-5 w-5 mt-0.5 shrink-0 text-white" />
-                  <div>
-                    <p className="text-sm text-gray-400">Ubicación</p>
-                    <p className="text-white">{siteConfig.addressDisplay}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="liquid-glass border border-white/10 rounded-2xl overflow-hidden h-64 lg:flex-1 relative">
-                <iframe
-                  title="Ubicación en Ciudad de México"
-                  src={siteConfig.mapEmbedSrc}
-                  className="h-full w-full border-0 grayscale invert-[0.92] contrast-[0.9]"
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                />
-                <a
-                  href={siteConfig.mapLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="absolute bottom-3 right-3 liquid-glass border border-white/20 text-white text-xs font-medium px-3 py-2 rounded-lg flex items-center gap-1.5 hover:bg-white hover:text-black transition-colors duration-200"
-                >
-                  Abrir en Google Maps
-                  <ExternalLink className="h-3.5 w-3.5" />
-                </a>
-              </div>
+            <Reveal delay={200} className="lg:col-span-2">
+              <ContactPanel />
             </Reveal>
           </div>
         </div>
