@@ -54,7 +54,7 @@ export default function HabitatSection() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-6">
           <Reveal delay={100} className="md:col-span-4">
             <HabitatPanel
-              image="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80"
+              image="https://images.unsplash.com/photo-1777383975764-bec6f5cabf00?auto=format&fit=crop&w=1200&q=80"
               label="Línea de ensamblaje"
               caption="Integración de efectores finales en planta industrial, operación 24/7."
               heightClassName="h-[320px] md:h-[520px]"
@@ -65,7 +65,7 @@ export default function HabitatSection() {
           <div className="grid grid-cols-1 gap-6 md:col-span-2">
             <Reveal delay={200}>
               <HabitatPanel
-                image="https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=800&q=80"
+                image="https://images.unsplash.com/photo-1784821856280-401b76b03266?auto=format&fit=crop&w=800&q=80"
                 label="Laboratorio clínico"
                 caption="Ajuste funcional y calibración de prótesis con equipo especializado."
                 heightClassName="h-[240px] md:h-[250px]"
@@ -74,7 +74,7 @@ export default function HabitatSection() {
             </Reveal>
             <Reveal delay={300}>
               <HabitatPanel
-                image="https://images.unsplash.com/photo-1581092160562-40aa08e78837?auto=format&fit=crop&w=800&q=80"
+                image="https://images.unsplash.com/photo-1768323275769-6615e7cfcbe4?auto=format&fit=crop&w=800&q=80"
                 label="Control de calidad"
                 caption="Verificación dimensional y trazabilidad bajo norma ISO."
                 heightClassName="h-[240px] md:h-[250px]"
