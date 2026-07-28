@@ -1,5 +1,4 @@
-import { Mail, MapPin, Clock, ExternalLink } from 'lucide-react';
-import WhatsAppIcon from './WhatsAppIcon';
+import { Mail, MapPin, Clock, Phone, ExternalLink } from 'lucide-react';
 import { siteConfig, buildWhatsAppLink } from '../config/site';
 
 export default function ContactPanel() {
@@ -9,8 +8,22 @@ export default function ContactPanel() {
         <div className="flex items-start gap-4">
           <MapPin className="h-5 w-5 mt-0.5 shrink-0 text-white" />
           <div>
-            <p className="text-sm text-gray-400">Ciudad</p>
-            <p className="text-white">{siteConfig.city}</p>
+            <p className="text-sm text-gray-400">Dirección</p>
+            <p className="text-white">{siteConfig.addressDisplay}</p>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-4">
+          <Phone className="h-5 w-5 mt-0.5 shrink-0 text-white" />
+          <div>
+            <a
+              href={buildWhatsAppLink('Hola, quiero pedir una cita con NEXOR Industrial.')}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-gray-300"
+            >
+              Pide una cita:
+            </a>
           </div>
         </div>
 
@@ -33,21 +46,6 @@ export default function ContactPanel() {
                 {slot.days}: {slot.time}
               </p>
             ))}
-          </div>
-        </div>
-
-        <div className="flex items-start gap-4">
-          <WhatsAppIcon className="h-5 w-5 mt-0.5 shrink-0 text-white" />
-          <div>
-            <p className="text-sm text-gray-400">Atención directa</p>
-            <a
-              href={buildWhatsAppLink('Hola, quiero solicitar información sobre sus soluciones industriales.')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-white hover:text-gray-300"
-            >
-              Solicita una reserva por WhatsApp
-            </a>
           </div>
         </div>
       </div>

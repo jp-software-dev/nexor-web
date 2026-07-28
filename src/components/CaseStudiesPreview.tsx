@@ -28,7 +28,7 @@ export default function CaseStudiesPreview() {
           </div>
         </Reveal>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {caseStudies.map((item, index) => (
             <Reveal key={item.id} delay={index * 100}>
               <div className="liquid-glass border border-white/10 rounded-2xl p-6 h-full flex flex-col">
