@@ -27,7 +27,7 @@ export default function AboutPage() {
               Manufactura con estándares que tu operación puede exigir.
             </h1>
             <p className="text-base md:text-lg text-gray-300 max-w-2xl mb-16">
-              Desde nuestra planta en Tejupilco, Estado de México, fabricamos componentes de precisión y
+              Desde nuestra planta en Ciudad de México, fabricamos componentes de precisión y
               soluciones industriales para empresas que dependen de la exactitud y el cumplimiento de plazos
               para mantener su producción en marcha.
             </p>

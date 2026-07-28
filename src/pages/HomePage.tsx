@@ -1,4 +1,8 @@
 import Hero from '../components/Hero';
+import HabitatSection from '../components/HabitatSection';
+import ControlInterfaceSection from '../components/ControlInterfaceSection';
+import TechSpecsSection from '../components/TechSpecsSection';
+import B2BLeadForm from '../components/B2BLeadForm';
 import TrustBar from '../components/TrustBar';
 import SolutionsOverview from '../components/SolutionsOverview';
 import WhyUs from '../components/WhyUs';
@@ -17,6 +21,10 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <HabitatSection />
+      <ControlInterfaceSection />
+      <TechSpecsSection />
+      <B2BLeadForm />
       <TrustBar />
       <SolutionsOverview />
       <WhyUs />

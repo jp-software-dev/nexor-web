@@ -8,7 +8,7 @@ export default function ProjectsPage() {
   useDocumentMeta({
     title: 'Proyectos y Casos de Éxito',
     description:
-      'Conoce los proyectos de manufactura y automatización que NEXOR Industrial ha entregado para empresas automotrices, alimenticias e industriales.',
+      'Conoce los proyectos de manufactura y automatización que NEXOR Industrial ha entregado para empresas automotrices, de salud, empaque y logística.',
     path: '/proyectos',
   });
 

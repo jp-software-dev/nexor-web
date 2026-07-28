@@ -31,7 +31,7 @@ export default function ContactPage() {
   useDocumentMeta({
     title: 'Contacto y Cotizaciones',
     description:
-      'Solicita tu cotización con NEXOR Industrial. Formulario, WhatsApp y ubicación en Tejupilco, Estado de México.',
+      'Solicita tu cotización con NEXOR Industrial. Formulario, WhatsApp y ubicación en Ciudad de México.',
     path: '/contacto',
   });
 
