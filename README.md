@@ -31,4 +31,4 @@ Follow these steps to deploy the development server locally. Ensure you have Nod
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/jp-software-dev/nexor-web.git](https://github.com/jp-software-dev/nexor-web.git)
+   git clone https://github.com/jp-software-dev/nexor-web.git
