@@ -10,6 +10,19 @@
           "meta[name=theme-color]"
         ]
       }
-    ]
+    ],
+    "typescript-config/consistent-casing": "off",
+    "compat-api/css": [
+      "default",
+      {
+        "ignore": [
+          "scrollbar-width",
+          "-webkit-mask",
+          "scrollbar-width: none"
+        ]
+      }
+    ],
+    "typescript-config/strict": "off",
+    "typescript-config/is-valid": "off"
   }
 }
