@@ -18,9 +18,9 @@ const navLinks = [
 ];
 
 const socialLinks = [
+  { label: 'Facebook', icon: Facebook, href: '#' },
   { label: 'Instagram', icon: Instagram, href: '#' },
   { label: 'LinkedIn', icon: Linkedin, href: '#' },
-  { label: 'Facebook', icon: Facebook, href: '#' },
 ];
 
 export default function Footer() {
@@ -100,7 +100,7 @@ export default function Footer() {
             <ul className="mt-4 space-y-3">
               <li className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-gray-400" strokeWidth={1.5} />
-                <span className="text-sm text-gray-400">{siteConfig.addressDisplay}</span>
+                <span className="text-sm text-gray-400">Ciudad de México.</span>
               </li>
               <li className="flex items-start gap-3">
                 <Phone className="h-4 w-4 mt-0.5 shrink-0 text-gray-400" strokeWidth={1.5} />
@@ -110,7 +110,7 @@ export default function Footer() {
                   rel="noopener noreferrer"
                   className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
                 >
-                  Pide una cita:
+                  Pide una cita
                 </a>
               </li>
               <li className="flex items-start gap-3">
@@ -124,7 +124,7 @@ export default function Footer() {
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="h-4 w-4 mt-0.5 shrink-0 text-gray-400" strokeWidth={1.5} />
-                <span className="text-sm text-gray-400">Cita previa requerida</span>
+                <span className="text-sm text-gray-400">Solicita cotización B2B</span>
               </li>
             </ul>
           </div>

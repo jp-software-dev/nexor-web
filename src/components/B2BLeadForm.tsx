@@ -196,14 +196,21 @@ export default function B2BLeadForm() {
                 >
                   Enviar solicitud
                 </button>
-                <a
-                  href={buildWhatsAppLink(whatsappMessage)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="liquid-glass border border-white/20 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200 hover:bg-white hover:text-black flex items-center justify-center"
+                <button
+                  type="button"
+                  disabled={!isFormValid}
+                  onClick={() => {
+                    if (!isFormValid) return;
+                    window.open(buildWhatsAppLink(whatsappMessage), '_blank', 'noopener,noreferrer');
+                  }}
+                  className={`liquid-glass border px-8 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center ${
+                    isFormValid
+                      ? 'border-white/20 text-white hover:bg-white hover:text-black cursor-pointer'
+                      : 'border-white/10 text-white/40 opacity-50 cursor-not-allowed'
+                  }`}
                 >
                   Enviar por WhatsApp
-                </a>
+                </button>
               </div>
             </form>
           </>
