@@ -6,7 +6,7 @@ import Reveal from '../components/Reveal';
 import WhatsAppIcon from '../components/WhatsAppIcon';
 import ContactPanel from '../components/ContactPanel';
 import { solutions, getSolutionBySlug } from '../data/solutions';
-import { buildWhatsAppLink } from '../config/site';
+import { buildWhatsAppLink, sanitizeInput } from '../config/site';
 import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 interface FormState {
@@ -16,6 +16,7 @@ interface FormState {
   phone: string;
   solution: string;
   message: string;
+  website: string;
 }
 
 const initialForm: FormState = {
@@ -25,6 +26,7 @@ const initialForm: FormState = {
   phone: '',
   solution: '',
   message: '',
+  website: '',
 };
 
 export default function ContactPage() {
@@ -54,22 +56,37 @@ export default function ContactPage() {
     setForm((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const buildWhatsAppMessage = () => {
+    const safe = {
+      name: sanitizeInput(form.name),
+      company: sanitizeInput(form.company),
+      email: sanitizeInput(form.email),
+      phone: sanitizeInput(form.phone),
+      message: sanitizeInput(form.message),
+    };
+    const solutionLabel = solutions.find((s) => s.id === form.solution)?.title ?? 'una solución industrial';
+    const lines = [
+      'Hola, me interesa una solución industrial.',
+      `*Nombre:* ${safe.name || '—'}`,
+      safe.company ? `*Empresa:* ${safe.company}` : null,
+      `*Interés:* ${solutionLabel}`,
+      safe.email ? `*Correo:* ${safe.email}` : null,
+      safe.phone ? `*Teléfono:* ${safe.phone}` : null,
+      safe.message ? `*Mensaje:* ${safe.message}` : null,
+    ].filter(Boolean);
+    return lines.join('\n');
+  };
+
+  const sendToWhatsApp = () => {
+    // Honeypot: bots fill every field, real users never see it. Bail out silently.
+    if (form.website) return;
+    window.open(buildWhatsAppLink(buildWhatsAppMessage()), '_blank', 'noopener,noreferrer');
     setSubmitted(true);
   };
 
-  const buildWhatsAppMessage = () => {
-    const solutionLabel = solutions.find((s) => s.id === form.solution)?.title ?? 'una solución industrial';
-    const lines = [
-      `Hola, soy ${form.name || '—'}.`,
-      form.company ? `Empresa: ${form.company}.` : null,
-      `Quiero cotizar: ${solutionLabel}.`,
-      form.email ? `Correo: ${form.email}.` : null,
-      form.phone ? `Teléfono: ${form.phone}.` : null,
-      form.message ? `Mensaje: ${form.message}` : null,
-    ].filter(Boolean);
-    return lines.join(' ');
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendToWhatsApp();
   };
 
   return (
@@ -115,6 +132,18 @@ export default function ContactPage() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="grid gap-5 sm:grid-cols-2">
+                  {/* Honeypot: hidden from real users, bots tend to fill every field */}
+                  <input
+                    type="text"
+                    name="website"
+                    value={form.website}
+                    onChange={handleChange('website')}
+                    className="hidden"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                  />
+
                   <div className="sm:col-span-1">
                     <label htmlFor="name" className="block text-sm text-gray-300 mb-2">
                       Nombre *
@@ -218,15 +247,14 @@ export default function ContactPage() {
                     >
                       Enviar solicitud
                     </button>
-                    <a
-                      href={buildWhatsAppLink(buildWhatsAppMessage())}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                    <button
+                      type="button"
+                      onClick={sendToWhatsApp}
                       className="liquid-glass border border-white/20 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200 hover:bg-white hover:text-black flex items-center justify-center gap-2"
                     >
                       <WhatsAppIcon className="h-4 w-4" />
                       Enviar por WhatsApp
-                    </a>
+                    </button>
                   </div>
                 </form>
               )}
