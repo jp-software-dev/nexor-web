@@ -1,7 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { CheckCircle2 } from 'lucide-react';
 import Reveal from './Reveal';
-import { buildWhatsAppLink } from '../config/site';
+import { buildWhatsAppLink, sanitizeInput } from '../config/site';
 
 interface FormState {
   name: string;
@@ -45,20 +45,37 @@ export default function B2BLeadForm() {
     emailValid &&
     form.phone.trim().length > 0;
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (!isFormValid || form.website) return;
+  const buildWhatsAppMessage = () => {
+    const safe = {
+      name: sanitizeInput(form.name),
+      company: sanitizeInput(form.company),
+      email: sanitizeInput(form.email),
+      phone: sanitizeInput(form.phone),
+      message: sanitizeInput(form.message),
+    };
+
+    return [
+      `Hola, soy ${safe.name || '—'} de ${safe.company || 'una empresa'}.`,
+      safe.email ? `Correo corporativo: ${safe.email}.` : null,
+      safe.phone ? `Teléfono: ${safe.phone}.` : null,
+      safe.message ? `Mensaje: ${safe.message}` : null,
+    ]
+      .filter(Boolean)
+      .join(' ');
+  };
+
+  const sendToWhatsApp = () => {
+    // Honeypot: bots fill every field, real users never see it. Bail out silently.
+    if (form.website) return;
+    if (!isFormValid) return;
+    window.open(buildWhatsAppLink(buildWhatsAppMessage()), '_blank', 'noopener,noreferrer');
     setSubmitted(true);
   };
 
-  const whatsappMessage = [
-    `Hola, soy ${form.name || '—'} de ${form.company || 'una empresa'}.`,
-    form.email ? `Correo corporativo: ${form.email}.` : null,
-    form.phone ? `Teléfono: ${form.phone}.` : null,
-    form.message ? `Mensaje: ${form.message}` : null,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    sendToWhatsApp();
+  };
 
   return (
     <section className="bg-black text-white px-6 py-24 md:px-12 lg:px-16">
@@ -199,10 +216,7 @@ export default function B2BLeadForm() {
                 <button
                   type="button"
                   disabled={!isFormValid}
-                  onClick={() => {
-                    if (!isFormValid) return;
-                    window.open(buildWhatsAppLink(whatsappMessage), '_blank', 'noopener,noreferrer');
-                  }}
+                  onClick={sendToWhatsApp}
                   className={`liquid-glass border px-8 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center ${
                     isFormValid
                       ? 'border-white/20 text-white hover:bg-white hover:text-black cursor-pointer'
