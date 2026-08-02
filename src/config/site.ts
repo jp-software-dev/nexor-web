@@ -18,3 +18,8 @@ export function buildWhatsAppLink(message: string): string {
   const encoded = encodeURIComponent(message);
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${encoded}`;
 }
+
+/** Strips angle brackets so form values can't inject HTML tags or break the wa.me message format. */
+export function sanitizeInput(value: string): string {
+  return value.replace(/[<>]/g, '').trim();
+}
