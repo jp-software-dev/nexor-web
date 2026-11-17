@@ -55,7 +55,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <span className="text-xs uppercase tracking-widest text-gray-500">Soluciones</span>
+            <span className="text-xs uppercase tracking-widest text-gray-400">Soluciones</span>
             <ul className="mt-4 space-y-3">
               {solutionLinks.map((link) => (
                 <li key={link.label}>
@@ -71,7 +71,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <span className="text-xs uppercase tracking-widest text-gray-500">Navegación</span>
+            <span className="text-xs uppercase tracking-widest text-gray-400">Navegación</span>
             <ul className="mt-4 space-y-3">
               {navLinks.map((link) => (
                 <li key={link.label}>
@@ -96,7 +96,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <span className="text-xs uppercase tracking-widest text-gray-500">Contacto</span>
+            <span className="text-xs uppercase tracking-widest text-gray-400">Contacto</span>
             <ul className="mt-4 space-y-3">
               <li className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 mt-0.5 shrink-0 text-gray-400" strokeWidth={1.5} />
@@ -131,7 +131,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-12 pt-6 border-t border-gray-800">
-          <p className="text-center text-[11px] uppercase tracking-widest text-gray-500">
+          <p className="text-center text-[11px] uppercase tracking-widest text-gray-400">
             © {year} {siteConfig.name}. Todos los derechos reservados.
           </p>
         </div>
